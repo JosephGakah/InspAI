@@ -16,7 +16,7 @@ const home = () => {
   const [allPosts, setallPosts] = useState([null])
   const [searchText, setsearchText] = useState('abc')
   return (
-    <section className='max-w-7x1 mx-auto'>
+    <section className="max-w-7xl mx-auto text-left">
       <div>
         <h1 className='font-extrabold text-[#222328] text-[32px]'>
           Community Logos
