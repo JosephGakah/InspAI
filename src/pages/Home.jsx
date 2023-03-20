@@ -56,7 +56,6 @@ const home = () => {
                 }
               </div>
             </>
-          
         }
       </div>
     </section>
