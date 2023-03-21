@@ -22,10 +22,9 @@ const FormField = ({ labelName, type, name, value, placeholder, handleChange, is
         <input
             type={type}
             name={name}
-            labelName={name}
             placeholder={placeholder}
             value={value}
-            handleChange={handleChange}
+            onChange={handleChange}
             required
             className='bg-gray-50 border border-gray-300 text-gray-900 text-semibold rounded-lg focus:ring-[#4649ff] focus:border-[#4649ff] outlined-none block-w-full p-3'
           >

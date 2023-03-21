@@ -18,7 +18,7 @@ const CreatePost = () => {
   const [generatingImage, setgeneratingImage] = useState(false)
   const [loading, setloading] = useState(false)
 
-  const generateImage = (e) => {}
+  const generateImage = () => {}
   const handleSubmit = () => {}
   const handleChange = (e) => {
     setform({ ...form, [e.target.name]: e.target.value})
