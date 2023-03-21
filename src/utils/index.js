@@ -1,7 +1,7 @@
 import { surpriseMePrompts } from '../constants';
 
 export function getRandomPrompt(prompt){
-    randomIndex = Math.floor(Math.random() * surpriseMePrompts.lenght);
+    randomIndex = Math.floor(Math.random() * surpriseMePrompts.length);
     randomPrompt = surpriseMePrompts[randomIndex];
 
     if(randomPrompt === prompt) return getRandomPrompt(prompt);

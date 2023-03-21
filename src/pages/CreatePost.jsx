@@ -18,9 +18,15 @@ const CreatePost = () => {
   const [generatingImage, setgeneratingImage] = useState(false)
   const [loading, setloading] = useState(false)
 
+  const generateImage = (e) => {}
   const handleSubmit = () => {}
-  const handleChange = (e) => {}
-  const handleSupriseMe = (e) => {}
+  const handleChange = (e) => {
+    setform({ ...form, [e.target.name]: e.target.value})
+  }
+  const handleSupriseMe = () => {
+    const randomPrompt = getRandomPrompt(form.prompt)
+    setform({ ...form, prompt:randomPrompt})
+  }
 
   return (
     <section className='max-w-7xl mx-auto text-left'>
@@ -70,7 +76,35 @@ const CreatePost = () => {
                 >
                 </img>
             }
+            {
+              generatingImage && (
+                <div className='absolute inset-0 z-o flex justify-center items-center bg-[rgba(0,0,0,0.5)] rounded-lg'>
+                  <Loader />
+                </div>
+              )
+            }
           </div>
+        </div>
+        <div className='mt-5 flex gap-5'>
+          <button
+            type='button'
+            onClick={generateImage}
+            className='text-white text-center text-sm w-full sm-w:auto px-5 py-2.5 rounded-md font-medium bg-green-700 '
+          >
+            {generatingImage ? 'Generating...' : 'Generate'}
+          </button>
+        </div>
+
+        <div className='md-10'>
+          <p className='mt-2 text-[#666e75] text-[14px]'>
+            Once you have generated the Image, you can share it with the Community
+          </p>
+          <button
+             type='submit'
+             className='mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center'
+          >
+            {loading ? 'Share': 'Share with Community'}
+          </button>
         </div>
       </form>
     </section>
