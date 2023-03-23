@@ -29,7 +29,7 @@ const CreatePost = () => {
   }
 
   return (
-    <section className='max-w-7xl mx-auto text-left'>
+    <section className='max-w-7xl mx-auto'>
       <div>
         <h1 className='font-extrabold text-[#222328] text-[32px]'>
           Create Logo
