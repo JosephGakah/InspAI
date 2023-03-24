@@ -1,3 +1,5 @@
+#enviromental
+.env
 # Logs
 logs
 *.log
