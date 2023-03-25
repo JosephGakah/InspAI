@@ -11,14 +11,39 @@ const CreatePost = () => {
     {
       name: '', 
       prompt: '', 
-      image: ''
+      photo: ''
     }
   );
 
   const [generatingImage, setgeneratingImage] = useState(false)
   const [loading, setloading] = useState(false)
 
-  const generateImage = () => {}
+  const generateImage = async() => {
+    if(form.prompt){
+      try {
+        setgeneratingImage(true)
+        const response = await fetch(
+          'http://localhost:5000/api/v1/midtrek',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({prompt: form.prompt})
+          }
+        )
+        const data = response.json()
+        setform({...form, photo: `data:image/jpeg;base64, ${data.photo}`})
+      } catch (error) {
+        alert(error)
+      } finally{
+        setgeneratingImage(false)
+      }
+    } else{
+      alert('Please enter prompt')
+    }
+  }
+
   const handleSubmit = () => {}
   const handleChange = (e) => {
     setform({ ...form, [e.target.name]: e.target.value})
@@ -63,7 +88,7 @@ const CreatePost = () => {
             {
               form.photo ? (
                 <img
-                 src={form.image}
+                 src={form.photo}
                  alt={form.prompt}
                  className='w-full h-full object-contain'
                 >
