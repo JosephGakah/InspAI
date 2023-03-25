@@ -9,8 +9,8 @@ dotenv.config();
 const router = express.Router();
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
+    api_key: process.env.CLOUDINARY_CLOUD_API_KEY,
+    api_secret: process.env.CLOUDINARY_CLOUD_API_SECRET
 })
 
 // Get Post
@@ -19,6 +19,7 @@ router.route('/').get(async (req, res) => {
         const posts = Post.find({})
         res.status(201).json({ success: true, data: posts })
     } catch (error) {
+        console.log('error')
         res.status(500).json({ success: false, message: error})        
     }
 })
