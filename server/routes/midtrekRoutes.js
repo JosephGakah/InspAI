@@ -14,12 +14,11 @@ const openai = new OpenAIApi(config)
 
 router.route('/').get((req, res) => {
     res.send('Hello from Dall-e')
-    console.log('DALL-E')
 })
 
-router.route('/').get(async (req, res) =>{
+router.route('/').post(async (req, res) => {
     try {
-        const prompt = req.body;
+        const { prompt } = req.body;
         const aiRespose = await openai.createImage({
             prompt,
             n: 1,
@@ -27,9 +26,8 @@ router.route('/').get(async (req, res) =>{
             response_format: 'b64_json'
         })
         const image = aiRespose.data.data[0].b64_json;
-        res.status(400).json({image: image})        
+        res.status(200).json({photo: image})
     } catch (error) {
-        console.log(error);
         res.status(500).send(error?.response.data.error.message)
     }
 })

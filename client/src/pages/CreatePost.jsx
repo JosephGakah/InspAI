@@ -11,15 +11,65 @@ const CreatePost = () => {
     {
       name: '', 
       prompt: '', 
-      image: ''
+      photo: ''
     }
   );
 
   const [generatingImage, setgeneratingImage] = useState(false)
   const [loading, setloading] = useState(false)
 
-  const generateImage = () => {}
-  const handleSubmit = () => {}
+  const generateImage = async() => {
+    if(form.prompt){
+      try {
+        setgeneratingImage(true)
+        const response = await fetch(
+          'http://localhost:5000/api/v1/midtrek',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({prompt: form.prompt})
+          }
+        )
+        const data = await response.json()
+        setform({ ...form, photo: `data:image/jpeg;base64,${data.photo}` })
+      } catch (error) {
+        alert(error)
+      } finally{
+        setgeneratingImage(false)
+      }
+    } else{
+      alert('Please enter prompt')
+    }
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if(form.prompt && form.photo){
+      try {
+        setloading(true)
+        const response = await fetch(
+          'http://localhost:5000/api/v1/post',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(form)
+          }
+        )
+        await response.json()
+        navigate('/')
+      } catch (error) {
+        alert(error)
+      } finally{
+        setloading(false)
+      }
+    } else{
+      alert('Please enter prompt')
+    }
+  }
   const handleChange = (e) => {
     setform({ ...form, [e.target.name]: e.target.value})
   }
@@ -63,7 +113,7 @@ const CreatePost = () => {
             {
               form.photo ? (
                 <img
-                 src={form.image}
+                 src={form.photo}
                  alt={form.prompt}
                  className='w-full h-full object-contain'
                 >
@@ -103,7 +153,7 @@ const CreatePost = () => {
              type='submit'
              className='mt-3 text-white bg-[#6469ff] font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 text-center'
           >
-            {loading ? 'Share': 'Share with Community'}
+            {loading ? 'Sharing': 'Share with Community'}
           </button>
         </div>
       </form>

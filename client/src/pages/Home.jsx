@@ -4,7 +4,7 @@ import { Loader, Card, FormField } from '../components'
 const RenderCards = ({data, title}) => {
   if(data?.length > 0){
     return data.map((post) => 
-    <Card key={post.id}{...post}
+    <Card key={post._id}{...post}
     />)
   }
   return <h2 className='mt-5 font-bold text-[#6469ff] text-x1-uppercase'>{title}</h2>
@@ -13,8 +13,48 @@ const RenderCards = ({data, title}) => {
 
 const home = () => {
   const [loading, setloading] = useState(false)
-  const [allPosts, setallPosts] = useState([null])
-  const [searchText, setsearchText] = useState('abc')
+  const [allPosts, setallPosts] = useState(null)
+  const [searchText, setsearchText] = useState('')
+  const [searchResult, setsearchResult] = useState(null)
+  const [searchTimeOut, setsearchTimeOut] = useState(null)
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        setloading(true)
+        const response = await fetch(
+          'http://localhost:5000/api/v1/post',
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }
+        )
+        if(response.ok){
+          const result = await response.json()
+          setallPosts(result.data.reverse())
+        }
+      } catch (error) {
+        alert(error)
+      } finally{
+        setloading(false)
+      }
+    }
+    return fetchPosts;
+  }, [])
+
+  const handleSearchChange = (e) => {
+    clearTimeout(searchTimeOut)
+    setsearchText(e.target.value)
+
+    setsearchTimeOut(
+      setTimeout(() => {
+        const result = allPosts.filter((post) => post.name.toLowerCase().includes(searchText.toLowerCase()) || post.prompt.toLowerCase().includes(searchText.toLowerCase()))
+        setsearchResult(result)
+      }, 500))
+  }
+  
   return (
     <section className="max-w-7xl mx-auto">
       <div>
@@ -27,7 +67,14 @@ const home = () => {
       </div>
       
       <div className='mt-16'>
-        <FormField></FormField>
+        <FormField
+          labelName="Search Posts"
+          name="text"
+          type="text"
+          placeholder="Search Post"
+          value={searchText}
+          handleChange={handleSearchChange}
+        />
       </div>
 
       <div className='mt-10'>
@@ -42,13 +89,13 @@ const home = () => {
                 {
                   searchText ? (
                     <RenderCards
-                      data={[]}
+                      data={searchResult}
                       title='No Search Result'
                     />
                   )
                   : (
                     <RenderCards
-                      data={[]}
+                      data={allPosts}
                       title='No Posts Found'
                     />
                   )
@@ -61,4 +108,4 @@ const home = () => {
   )
 }
 
-export default home
+export default home;
