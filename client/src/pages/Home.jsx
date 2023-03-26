@@ -3,8 +3,8 @@ import { Loader, Card, FormField } from '../components'
 
 const RenderCards = ({data, title}) => {
   if(data?.length > 0){
-    return data.map((post) => 
-    <Card key={post._id}{...post}
+    return data.map((logo) => 
+    <Card key={logo._id}{...logo}
     />)
   }
   return <h2 className='mt-5 font-bold text-[#6469ff] text-x1-uppercase'>{title}</h2>
@@ -13,17 +13,17 @@ const RenderCards = ({data, title}) => {
 
 const home = () => {
   const [loading, setloading] = useState(false)
-  const [allPosts, setallPosts] = useState(null)
+  const [alllogos, setalllogos] = useState(null)
   const [searchText, setsearchText] = useState('')
   const [searchResult, setsearchResult] = useState(null)
   const [searchTimeOut, setsearchTimeOut] = useState(null)
 
   useEffect(() => {
-    const fetchPosts = async () => {
+    const fetchlogos = async () => {
       try {
         setloading(true)
         const response = await fetch(
-          'http://localhost:5000/api/v1/post',
+          'http://localhost:5000/api/v1/logo',
           {
             method: 'GET',
             headers: {
@@ -33,7 +33,7 @@ const home = () => {
         )
         if(response.ok){
           const result = await response.json()
-          setallPosts(result.data.reverse())
+          setalllogos(result.data.reverse())
         }
       } catch (error) {
         alert(error)
@@ -41,7 +41,7 @@ const home = () => {
         setloading(false)
       }
     }
-    return fetchPosts;
+    return fetchlogos;
   }, [])
 
   const handleSearchChange = (e) => {
@@ -50,7 +50,7 @@ const home = () => {
 
     setsearchTimeOut(
       setTimeout(() => {
-        const result = allPosts.filter((post) => post.name.toLowerCase().includes(searchText.toLowerCase()) || post.prompt.toLowerCase().includes(searchText.toLowerCase()))
+        const result = alllogos.filter((logo) => logo.name.toLowerCase().includes(searchText.toLowerCase()) || logo.prompt.toLowerCase().includes(searchText.toLowerCase()))
         setsearchResult(result)
       }, 500))
   }
@@ -68,10 +68,10 @@ const home = () => {
       
       <div className='mt-16'>
         <FormField
-          labelName="Search Posts"
+          labelName="Search logos"
           name="text"
           type="text"
-          placeholder="Search Post"
+          placeholder="Search logo"
           value={searchText}
           handleChange={handleSearchChange}
         />
@@ -95,8 +95,8 @@ const home = () => {
                   )
                   : (
                     <RenderCards
-                      data={allPosts}
-                      title='No Posts Found'
+                      data={alllogos}
+                      title='No logos Found'
                     />
                   )
                 }

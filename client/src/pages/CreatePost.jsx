@@ -5,7 +5,7 @@ import { preview } from '../assets'
 import { getRandomPrompt } from '../utils'
 import { FormField, Loader } from '../components'
 
-const CreatePost = () => {
+const Createlogo = () => {
   const navigate = useNavigate()
   const [form, setform] = useState(
     {
@@ -23,7 +23,7 @@ const CreatePost = () => {
       try {
         setgeneratingImage(true)
         const response = await fetch(
-          'http://localhost:5000/api/v1/midtrek',
+          'http://localhost:5000/api/v1/inspai',
           {
             method: 'POST',
             headers: {
@@ -50,7 +50,7 @@ const CreatePost = () => {
       try {
         setloading(true)
         const response = await fetch(
-          'http://localhost:5000/api/v1/post',
+          'http://localhost:5000/api/v1/logo',
           {
             method: 'POST',
             headers: {
@@ -161,4 +161,4 @@ const CreatePost = () => {
   )
 }
 
-export default CreatePost
+export default Createlogo
