@@ -18,7 +18,6 @@ const home = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      setloading(true)
       try {
         setloading(true)
         const response = await fetch(
@@ -40,8 +39,8 @@ const home = () => {
         setloading(false)
       }
     }
-    fetchPosts()
-  })
+    return fetchPosts;
+  }, [])
   return (
     <section className="max-w-7xl mx-auto">
       <div>
@@ -88,4 +87,4 @@ const home = () => {
   )
 }
 
-export default home
+export default home;
